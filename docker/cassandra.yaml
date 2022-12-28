@@ -1,0 +1,5 @@
+cluster_name: 'chatApp'
+listen_address: 127.0.0.1
+broadcast_address: 127.0.0.1
+data_file_directories:
+  - /var/lib/cassandra/data
