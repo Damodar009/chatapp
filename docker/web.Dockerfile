@@ -18,4 +18,4 @@ RUN go mod tidy
 
 
 
-CMD goreload main.go
+CMD go run main.go

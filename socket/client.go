@@ -7,33 +7,22 @@ import (
 )
 
 type Client struct {
-	Room *Room
-	Conn *websocket.Conn
-	Send chan *Message
+	Server *ChatServer
+	Conn   *websocket.Conn
+	Send   chan []byte
 }
 
 func (c *Client) Read() {
 	defer func() {
-		print("closing this connection")
-		c.Room.Unregister <- c
+		c.Server.Unregister <- c
 		c.Conn.Close()
 	}()
 	for {
-		messageType, p, err := c.Conn.ReadMessage()
-		print("new message has been read")
+		_, message, err := c.Conn.ReadMessage()
 		if err != nil {
 			log.Panicln(err)
 			return
 		}
-
-		message := Message{
-			Message: string(p),
-			Type:    string(messageType),
-		}
-		println("new message hurray")
-
-		c.Room.Broadcast <- &message
-
+		c.Server.Broadcast <- message
 	}
-
 }

@@ -10,9 +10,7 @@ type DBConnection struct {
 var connection DBConnection
 
 func SetUpDBConnection() {
-
 	connection.cluster = gocql.NewCluster("127.0.0.1:9042")
-
 	connection.cluster.Consistency = gocql.Quorum
 	connection.cluster.Keyspace = "chatapp"
 	connection.session, _ = connection.cluster.CreateSession()
@@ -20,9 +18,6 @@ func SetUpDBConnection() {
 }
 
 func ExecuteQuery(query string) {
-	println("///////////////////////////////////////####")
 	if err := connection.session.Query(query).Exec(); err != nil {
-		println("///////////////////////////////////////")
-		println("error occur", &err)
 	}
 }
